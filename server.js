@@ -1,12 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const { spawn } = require("child_process");
+const {exec} = require("child_process");
 const fs = require("fs");
 const path = require("path");
 const canvas = require("chartjs-node-canvas");
 
 const app = express();
 const port = 3000;
+
+
 
 app.use(bodyParser.text());
 
@@ -55,7 +57,7 @@ app.get("/generate-pdf", async (req, res) => {
 
   fs.writeFileSync(htmlFilePath, updatedHtmlContent);
 
-  const weasyprintProcess = spawn("weasyprint", [htmlFilePath, pdfFilePath]);
+  const weasyprintProcess = exec(`weasyprint ${htmlFilePath} ${pdfFilePath}`);
 
   weasyprintProcess.on("close", (code) => {
     if (code === 0) {
