@@ -8,37 +8,25 @@ const canvas = require("chartjs-node-canvas");
 const app = express();
 const port = 3000;
 
+app.set('view engine', 'ejs')
 
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(bodyParser.text());
+app.get('/', async(req,res)=>{
 
-app.get("/generate-pdf", async (req, res) => {
-  const htmlContent = "<h1>Chart</h1></hr><!-- INSERT_CHART_HERE -->";
+  res.render('index')
+})
 
-  const xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
-  const yValues = [55, 49, 44, 24, 15];
-  const barColors = ["red", "green", "blue", "orange", "brown"];
+app.post("/generate-pdf", async (req, res) => {
+  const htmlContent = req.body.htmlText
 
-  const chartConfiguration = {
-    type: "bar",
-    data: {
-      labels: xValues,
-      datasets: [
-        {
-          backgroundColor: barColors,
-          data: yValues,
-        },
-      ],
-    },
-    options: {
-      legend: { display: false },
-      title: {
-        display: true,
-        text: "World Wine Production 2018",
-      },
-      
-    },
-  };
+  
+
+  const chartConfiguration = JSON.parse(req.body.chartConfig)
+
+  console.log(chartConfiguration)
+
+  
   const Canvas = new canvas.ChartJSNodeCanvas({ height: 500, width: 500 , backgroundColour:"white"});
 
   const image = await Canvas.renderToBuffer(chartConfiguration);
@@ -48,7 +36,7 @@ app.get("/generate-pdf", async (req, res) => {
   fs.writeFileSync(imagePath, image);
 
   const updatedHtmlContent = htmlContent.replace(
-    "<!-- INSERT_CHART_HERE -->",
+    "%CHART%",
     `<img src="file://${imagePath}" alt="Chart">`
   );
 
@@ -75,3 +63,4 @@ app.get("/generate-pdf", async (req, res) => {
 app.listen(port, () => {
   console.log(`Express server listening at http://localhost:${port}`);
 });
+

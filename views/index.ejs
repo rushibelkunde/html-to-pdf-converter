@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Html-to-PDF</title>
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="app">
+        <header>
+            <nav class="navbar navbar-dark bg-primary">
+                <span class="navbar-brand mb-0 h1">Html-to-PDF</span>
+            </nav>
+            
+        </header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 m-auto pt-4">
+                    <form method="POST" action="/generate-pdf" autocomplete="off">
+                        <div class="row">
+                            <div class="col-12 form-group">
+                                <label for="todo">Enter your Html & css</label>
+                             
+                                    <textarea name="htmlText" class="form-control" id="" cols="30" rows="5"></textarea>
+                                <label for="todo">Enter chart Configurations (add %CHART% in html wherever you want to generate chart)</label>
+                                <textarea name="chartConfig" class="form-control" id="" cols="30" rows="5" placeholder="if you want to generate chart provide chart config object in JSON otherwise leave it blank "></textarea>
+                                <button type="submit">Generate Pdf</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
